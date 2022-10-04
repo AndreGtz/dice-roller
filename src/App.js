@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
 import './App.css';
-/* return o render
-  map() => (
-    { elem.hide || (
-      <div>
-      </div>
-      )
-  }
-) */
 
 function App() {
   const [list, setList] = useState([]);
@@ -40,8 +32,7 @@ function App() {
   );
 }
 
-function TableRoll(props) {
-  const { list, setList } = props;
+function TableRoll({ list, setList }) {
   let num = 0;
   const deleteNumber = (index) => {
     const listB = [...list];
@@ -53,10 +44,11 @@ function TableRoll(props) {
     listB[index].hide = true;
     setList(listB);
   };
-  const listWithId = list.map((item, index) => {
+
+  const numGen = (item, index) => {
     const newNum = (!item.hide) ? num += 1 : 0;
     return ({ num: newNum, myId: index, ...item });
-  });
+  };
 
   return (
     <table>
@@ -71,8 +63,8 @@ function TableRoll(props) {
         </tr>
       </thead>
       <tbody>
-        {listWithId.map((elem, index) => (
-          elem.hide || (() => {
+        {list.map(numGen).map((elem, index) => (
+          elem.hide || (
             <tr key={elem.myId}>
               <td>{elem.num}</td>
               <td>{elem.roll}</td>
@@ -96,8 +88,8 @@ function TableRoll(props) {
               </td>
               <td>{index}</td>
               <td>{(elem.hide === false) ? '0' : '1'}</td>
-            </tr>;
-          })
+            </tr>
+          )
         ))}
       </tbody>
     </table>
